@@ -24,3 +24,5 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run release
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
