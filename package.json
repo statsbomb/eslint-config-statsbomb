@@ -1,10 +1,15 @@
 {
   "name": "@statsbomb/eslint-config",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Base eslint config for Statsbomb projects",
   "main": "base.js",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "release": "np --no-release-draft"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com/"
   },
   "repository": {
     "type": "git",
