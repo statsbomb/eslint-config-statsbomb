@@ -23,4 +23,4 @@ jobs:
       - run: git config --global user.email ''
       - run: npm ci
       - run: npm run lint
-      - run: npm run release -- ${{ inputs.version }}
+      - run: npm run release -- ${{ github.event.inputs.version }}
