@@ -5,7 +5,7 @@
   "main": "base.js",
   "scripts": {
     "lint": "eslint .",
-    "release": "yes | np --no-release-draft"
+    "release": "echo yes | np --no-release-draft"
   },
   "publishConfig": {
     "access": "public",
