@@ -54,5 +54,10 @@
     "yarn": false,
     "yolo": false,
     "publish": true
-  }
+  },
+  "files": [
+    "base.js",
+    "react.js",
+    "README.md"
+  ]
 }
