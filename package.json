@@ -1,11 +1,11 @@
 {
   "name": "@statsbomb/eslint-config",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Base eslint config for Statsbomb projects",
   "main": "base.js",
   "scripts": {
     "lint": "eslint .",
-    "release": "np --no-release-draft"
+    "release": "yes | np --no-release-draft"
   },
   "publishConfig": {
     "access": "public",
