@@ -6,11 +6,11 @@ module.exports = {
   extends: ['airbnb-base', 'prettier'],
   plugins: ['prettier'],
   rules: {
-    // Max line length set to 120 comments, excluding URLs.
+    // Max line length set to 120, excluding URLs.
     'max-len': [
       'error',
       {
-        code: 80, // Matching prettier's recommended print width
+        code: 120,
         comments: 120,
         ignoreUrls: true,
       },
