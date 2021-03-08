@@ -42,4 +42,11 @@ module.exports = {
     // Good habit to have though, makes working with large objects/data structures easier IMO
     'sort-keys': 'warn',
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+      },
+    },
+  },
 };
