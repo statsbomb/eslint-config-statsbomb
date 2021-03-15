@@ -13,7 +13,7 @@ In order to tell npm to download the package from Github rather than the npm reg
 * Add the following to a `.npmrc` file in the project root, *or* per user (ie `~/.npmrc`), replacing `YOUR_GITHUB_AUTH_TOKEN` with your token.
   ```
   //npm.pkg.github.com/:_authToken=YOUR_GITHUB_AUTH_TOKEN
-  @statsbomb:registry=https://npm.pkg.github.com/statsbomb
+  @statsbomb:registry=https://npm.pkg.github.com
   ```
 
 You will then be able to install in your project by running the following command:
