@@ -1,6 +1,6 @@
 {
   "name": "@statsbomb/eslint-config",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Base eslint config for Statsbomb projects",
   "main": "base.js",
   "scripts": {
