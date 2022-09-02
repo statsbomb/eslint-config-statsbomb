@@ -61,6 +61,7 @@
   "files": [
     "base.js",
     "react.js",
+    "typescript-react.js",
     "README.md"
   ]
 }
