@@ -42,6 +42,19 @@ Or for React projects:
 }
 ```
 
+Or for React with typescript projects:
+
+```json
+{
+  "extends": [
+    "@statsbomb/eslint-config/typescript-react"
+  ],
+  "parserOptions": {
+    "project": ["**/tsconfig.json"]
+  }
+}
+```
+
 ### Extending
 Currently, we have standard rules and React rules. 
 Should we want more rules for an additional framework (Vue for example), they should extend the base config (./base.js).
