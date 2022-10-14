@@ -37,25 +37,22 @@ Add the following to your project's `.eslintrc` or `eslintrc.json` file:
 
 Or for typescript projects:
 
-````json
+```json
 {
-  "extends": [
-    "@statsbomb/eslint-config/typescript"
-  ],
+  "extends": ["@statsbomb/eslint-config/typescript"],
   "parserOptions": {
     "project": ["**/tsconfig.json"]
   }
 }
+```
 
 Or for React projects:
 
 ```json
 {
-  "extends": [
-    "@statsbomb/eslint-config/react"
-  ]
+  "extends": ["@statsbomb/eslint-config/react"]
 }
-````
+```
 
 Or for React with typescript projects:
 
