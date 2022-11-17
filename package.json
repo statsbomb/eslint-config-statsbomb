@@ -63,6 +63,7 @@
   },
   "files": [
     "base.js",
+    "default.js",
     "react.js",
     "typescript-react.js",
     "typescript.js",
