@@ -1,3 +1,9 @@
 module.exports = {
-  extends: ['./react.js', 'airbnb-typescript'],
+  env: {
+    browser: true,
+  },
+  extends: ['airbnb-typescript', './default.js'],
+  rules: {
+    'react/require-default-props': 'off',
+  },
 };

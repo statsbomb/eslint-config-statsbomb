@@ -2,5 +2,5 @@ module.exports = {
   env: {
     browser: true,
   },
-  extends: ['airbnb', './base.js', 'prettier/react'],
+  extends: ['airbnb', './default.js'],
 };
