@@ -20,6 +20,9 @@ module.exports = {
       },
     ],
 
+    'import/no-import-module-exports': 'warn',
+    'import/no-relative-packages': 'warn',
+
     // Max line length set to 120, excluding URLs.
     'max-len': [
       'error',
