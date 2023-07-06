@@ -22,12 +22,12 @@ module.exports = {
 
     'import/no-import-module-exports': 'warn',
     'import/no-relative-packages': 'warn',
-    "react/require-default-props": [
-      "error",
+    'react/require-default-props': [
+      'error',
       {
-        "functions": "defaultArguments"
-      }
-    ]
+        functions: 'defaultArguments',
+      },
+    ],
 
     // Max line length set to 120, excluding URLs.
     'max-len': [
