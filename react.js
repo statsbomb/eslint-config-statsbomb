@@ -2,7 +2,7 @@ module.exports = {
   env: {
     browser: true,
   },
-  extends: ['airbnb', 'eslint-plugin-react', './default.js'],
+  extends: ['airbnb', './default.js'],
   rules: {
     // Default props for functional components are now deprecated
     'react/require-default-props': [
