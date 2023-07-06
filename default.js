@@ -40,6 +40,7 @@ module.exports = {
       },
     ],
 
+    // Default props for functional components are now deprecated
     'react/require-default-props': [
       'error',
       {
