@@ -1,26 +1,106 @@
-name: Publish
-on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'What version? Version can be: patch | minor | major | prepatch | preminor | premajor | prerelease | 1.2.3'
-        required: true
-        default: 'patch'
+# The contents of this workflow has been duplicated from @statsbomb/kitbag-workflows
+# Compare this snippet from statsbomb/kitbag-workflows/.github/workflows/release.yml:
+# This is because this repo is public is not able to access a private shared workflows repository.
 
-env:
-  GITHUB_PACKAGE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+name: Release
+
+on:
+  push:
+    branches:
+      - 'release/*'
 
 jobs:
-  publish:
-    name: Publish
+  release-and-publish:
+    name: Release and publish
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      pull-requests: write
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}}"
+
+      - name: Release Branch Check
+        run: |
+          git fetch origin main
+          release=$(git rev-parse HEAD)
+          main=$(git rev-parse origin/main)
+          if [ "$release" != "$main" ]; then
+            echo "Error: Release branch is not up-to-date with main"
+            exit 1
+          fi
+
+      - name: Extract Branch Name
+        id: extract-branch-name
+        run: |
+          echo "BRANCH_NAME=${GITHUB_REF#refs/heads/release/}" >> $GITHUB_ENV
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          node-version: '14.x'
-      - run: git config --global user.name ${{ github.actor }}
-      - run: git config --global user.email ''
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run release -- ${{ github.event.inputs.version }}
+          node-version: '18.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@statsbomb'
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Bump
+        run: |
+          VERSION=$(npm version ${{ env.BRANCH_NAME }})
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo $VERSION
+
+      - name: Update Changelog
+        if: ${{ env.BRANCH_NAME != 'prerelease' }}
+        uses: thomaseizinger/keep-a-changelog-new-release@1.1.0
+        with:
+          version: ${{ env.VERSION }}
+
+      - name: Commit Changelog
+        if: ${{ env.BRANCH_NAME != 'prerelease' }}
+        run: |
+          git add CHANGELOG.md
+          git commit -m "Update CHANGELOG for version ${{ env.VERSION }}"
+
+      - name: Publish
+        run: npm publish
+
+      - name: Push
+        run: git push --follow-tags --no-verify
+
+      - name: Render template
+        id: template
+        uses: chuhlomin/render-template@v1.4
+        with:
+          template: .github/PULL_REQUEST_TEMPLATE_RELEASE.md
+          vars: |
+            author: ${{ github.actor }}
+            version: ${{ env.VERSION }}
+
+      - name: Open Release PR
+        uses: peter-evans/create-pull-request@v3
+        with:
+          base: 'main'
+          body: ${{ steps.template.outputs.result }}
+          branch: ${{ github.ref }}
+          commit-message: 'Merge release branch ${{ github.event.ref }}'
+          labels: release
+          reviewers: ${{ github.actor }}
+          title: 'Release version ${{ env.VERSION }}'
+          token: ${{ secrets.PACKAGES_PAT }} # use the StatsbombBot PAT to open the PR to get the test workflow to run properly
+
+      - name: Enable Auto Merge
+        run: gh pr merge ${{ github.ref_name }} --squash --auto
+        env:
+          GH_TOKEN: ${{ github.token }}

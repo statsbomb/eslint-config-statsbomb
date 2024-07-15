@@ -1,0 +1,47 @@
+# The contents of this workflow has been duplicated from @statsbomb/kitbag-workflows
+# Compare this snippet from statsbomb/kitbag-workflows/.github/workflows/version-check.yml:
+# This is because this repo is public is not able to access a private shared workflows repository.
+
+name: Version Check
+
+# This version check only runs if the branch is prefixed with 'release/'
+# The logic for this can only be applied at the job level, hence this comment.
+on:
+  pull_request:
+    branches:
+      - main
+      - feature/major-release
+
+jobs:
+  version-check:
+    name: 'Version Check'
+    runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'release/')
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_PAT_TOKEN }}
+      - uses: actions/setup-node@v3
+        with:
+          always-auth: true
+          node-version: '16.x'
+          registry-url: https://npm.pkg.github.com
+          scope: '@statsbomb'
+      - name: Get branch version
+        run: echo "##[set-output name=version;]$(echo $(node -p "require('./package.json').version"))"
+        id: branch_version
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+          token: ${{ secrets.GH_PAT_TOKEN }}
+      - name: Get current version
+        run: echo "##[set-output name=version;]$(echo $(node -p "require('./package.json').version"))"
+        id: main_version
+      - name: Check ready to merge
+        if: ${{ steps.branch_version.outputs.version <= steps.main_version.outputs.version }}
+        run: |
+          echo Version number mismatch - unable to merge
+          echo This branch: ${{ steps.branch_version.outputs.version }}
+          echo Main: ${{ steps.main_version.outputs.version }}
+          echo Have you run the release workflow yet?
+          exit 1

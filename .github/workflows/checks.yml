@@ -1,0 +1,27 @@
+# The contents of this workflow has been duplicated from @statsbomb/kitbag-workflows
+# Compare this snippet from statsbomb/kitbag-workflows/.github/workflows/branch-checks.yml:
+# This is because this repo is public is not able to access a private shared workflows repository.
+
+name: Branch Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+env:
+  NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_PAT }}
+
+jobs:
+  branch-check:
+    name: Branch Check
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: deepakputhraya/action-branch-name@master
+        with:
+          allowed_prefixes: 'main,feature,chore,fix,docs,tests,release,dependabot,spike'
