@@ -65,6 +65,15 @@ Or for React with typescript projects:
 }
 ```
 
+### Contributing
+
+Please ensure that all changes are logged in the changelog.md file.
+
+### Format of changelog entry:
+```mdx
+- [type] REF-0001 Description of change @userHandleOfChangeMaker
+```
+
 ### Extending
 
 Currently, we have standard rules and React rules.
