@@ -6,6 +6,8 @@ module.exports = {
   extends: ['prettier'],
   plugins: ['prettier'],
   rules: {
+    // Turning off the need for a comma at the end of an object or array.
+    'comma-dangle': 0,
     // For some reason this is causing an error in react projects, adding it here even though it should be covered by
     // Airbnb's own config.
     'import/extensions': [

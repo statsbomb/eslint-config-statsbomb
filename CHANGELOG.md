@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- [chore] KT-111 Addition of changelog.md and pull request template @hmredmond
+-   [chore] KT-111 Addition of changelog.md and pull request template @hmredmond
+-   [chore] KT-110 Add rule to ignore commas at end of lines by default @hmredmond
 
 ## Deprecated
 
