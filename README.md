@@ -65,6 +65,32 @@ Or for React with typescript projects:
 }
 ```
 
+#### Test file overrides
+
+By default, the eslint rules are "less strict" for test files.
+This applies to all typescript/javascript test files that use the common jest folder structure or file extensions.
+For example:
+* `yourFile.test.jsx`
+* `__tests__/yourFile.tsx`
+These more lenient rules are also applied to your `stories`, `__mocks__` and `__fixtures__`.
+
+If you want to manually apply these rules to a custom file pattern you can do so in your eslint config file by extending `@statsbomb/eslint-config/test`.
+In the following example we add the test rules to a local folder called `.jest`.
+```
+{
+  "extends": [
+    "@statsbomb/eslint-config/typescript-react",
+    "@statsbomb/eslint-config/test"
+  ],
+  "files": [
+    ".jest/**.{ts,tsx}"
+  ],
+  "parserOptions": {
+    "project": ["tsconfig.eslint.json"]
+  }
+}
+```
+
 ### Contributing
 
 Please ensure that all changes are logged in the changelog.md file.
