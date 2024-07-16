@@ -65,6 +65,7 @@
     "base.js",
     "default.js",
     "react.js",
+    "test.js",
     "typescript-react.js",
     "typescript.js",
     "README.md"
