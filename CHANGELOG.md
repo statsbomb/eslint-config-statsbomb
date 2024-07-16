@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - [chore] KT-111 Addition of changelog.md and pull request template @hmredmond
+- [feature] KT-114 Add test overrides @yodaddyp
 
 ## Deprecated
 
