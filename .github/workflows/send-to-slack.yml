@@ -1,0 +1,70 @@
+# name: Send Changelog Notification to Slack
+name: Send Changelog as Slack Notification
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  send-changelog-to-slack:
+    runs-on: ubuntu-latest
+
+    if: |
+      github.event.review.state == 'approved' &&
+      contains(github.event.pull_request.head.ref, 'release/')
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get Package Version
+        id: package_version
+        run: |
+          # Read the version from the package.json file
+          version=$(jq -r '.version' package.json)
+          package_name=$(jq -r '.name' package.json)
+
+          # Set the output variable
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "package_name=$package_name" >> $GITHUB_OUTPUT
+
+      - name: Print Package Version
+        run: |
+          echo "Package version: ${{ steps.package_version.outputs.version }} of ${{ steps.package_version.outputs.package_name }} has been published 🎉"
+
+      - name: Get Most Recent Changelog Release Entry
+        id: changelog
+        run: |
+          # Assuming the changelog is in a file named CHANGELOG.md
+          # Find the start of the first versioned block
+          FIRST_VERSION_START=$(grep -n -E '## \[v\w+\.\w+\.\w+\]' CHANGELOG.md | head -n 1 | cut -d ':' -f 1)
+
+          # Find the end of the first versioned block
+          FIRST_VERSION_END=$(($(grep -n -E '## \[v\w+\.\w+\.\w+\]' CHANGELOG.md | head -n 2 | tail -n 1 | cut -d ':' -f 1) - 1))
+
+          # Extract the version header and changes in that block
+          CHANGES=$(sed -n "$FIRST_VERSION_START,$FIRST_VERSION_END p" CHANGELOG.md)
+
+          VERSION_HEADER=$(echo "$CHANGES" | head -n 1)
+          # Remove leading '## ' from the version header
+          VERSION_HEADER=$(echo "$VERSION_HEADER" | sed 's/^## //')
+
+          CHANGES_TEXT=$(echo "$CHANGES" | tail -n +2 | grep -E '^\-' | sed 's/^-\s*//')
+
+          # Convert the changes text into a JSON array
+          CHANGELOG_CONTENT=$(echo "$CHANGES_TEXT" | tr '\n' '|')
+          CHANGELOG_CONTENT="${CHANGELOG_CONTENT//|/'\n'}"
+          CHANGELOG_CONTENT="${CHANGELOG_CONTENT//\`/\'}"
+
+          echo "$VERSION_HEADER"
+          echo "$CHANGELOG_CONTENT"
+
+          echo "version_header=$VERSION_HEADER" >> $GITHUB_OUTPUT
+          echo "changelog_entries=$CHANGELOG_CONTENT" >> $GITHUB_OUTPUT
+
+      - name: Print Changelog Entry
+        run: |
+          json_payload="{\"username\": \"kitbagreleasebot\",\"icon_emoji\": \":package:\",\"text\":\"Release notification\",
+                \"blocks\": [
+                    {\"type\": \"section\",\"text\": {\"type\": \"mrkdwn\",\"text\": \"🚀 Version *${{ steps.package_version.outputs.version }}* of *${{steps.package_version.outputs.package_name}}* has been published 🚀\n\n\"}},
+                    {\"type\": \"section\",\"text\": {\"type\": \"mrkdwn\",\"text\":\"📝 *Changelog entry:*\n\n*${{ steps.changelog.outputs.version_header }}*\n\n${{ steps.changelog.outputs.changelog_entries }}\"}}]}"
+          curl -X POST -H 'Content-type: application/json' --data "$json_payload" "$SLACK_WEBHOOK"
+        env:
+          SLACK_WEBHOOK: https://hooks.slack.com/services/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
