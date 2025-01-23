@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   [feature] KT-114 Add test overrides @yodaddyp
 -   [chore] KT-111 Addition of changelog.md and pull request template @hmredmond
 -   [chore] KT-113 Updated branch and release workflow to use shared workflows @hmredmond
+-   [fix] EPT-5961 Add missing Storybook plugin optional peer dependency @yodaddyp
 
 ## Deprecated
 
