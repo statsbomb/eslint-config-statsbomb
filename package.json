@@ -38,6 +38,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-storybook": "^0.11.2",
     "np": "^7.4.0",
     "prettier": "^3.0.3"
   },
@@ -54,6 +55,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-storybook": "^0.11.2",
     "prettier": "^3.0.3"
   },
   "np": {
