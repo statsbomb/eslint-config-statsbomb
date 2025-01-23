@@ -5,7 +5,7 @@
   "main": "base.js",
   "scripts": {
     "lint": "eslint .",
-    "release": "echo yes | np --no-release-draft"
+    "build": "echo \"Nothing to build.\""
   },
   "publishConfig": {
     "access": "public",
@@ -39,7 +39,6 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-storybook": "^0.11.2",
-    "np": "^7.4.0",
     "prettier": "^3.0.3"
   },
   "peerDependencies": {
@@ -57,11 +56,6 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-storybook": "^0.11.2",
     "prettier": "^3.0.3"
-  },
-  "np": {
-    "yarn": false,
-    "yolo": false,
-    "publish": true
   },
   "files": [
     "base.js",
