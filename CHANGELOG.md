@@ -13,7 +13,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   [chore] KT-113 Updated branch and release workflow to use shared workflows @hmredmond
 -   [fix] EPT-5961 Add missing Storybook plugin optional peer dependency @yodaddyp
 
-## Deprecated
-
--   `thisThing` - use `thisOtherThing` instead.
-
